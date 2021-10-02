@@ -60,17 +60,17 @@ public class Exercicios1 {
 
     public List<Integer> ordenarLista(List<Integer> numeros) {
 
-        List<Integer> ordenados = new ArrayList<>();
-
-        for (Integer i=0; i<numeros.size() - 1; i++){
-            for (Integer j=0; j<numeros.size() - 1; j++){
-                if (numeros.get(j) > numeros.get(j + 1)){
-                    int aux = numeros[j];
-                    numeros[j] = numeros[j+1];
-                    numeros[j+1] = aux;
-                }
-            }
-        }
+//        List<Integer> ordenados = new ArrayList<>();
+//
+//        for (Integer i=0; i<numeros.size() - 1; i++){
+//            for (Integer j=0; j<numeros.size() - 1; j++){
+//                if (numeros.get(j) > numeros.get(j + 1)){
+//                    int aux = numeros[j];
+//                    numeros[j] = numeros[j+1];
+//                    numeros[j+1] = aux;
+//                }
+//            }
+//        }
 
 //        Consegui fazer sem transformar em array, nao sei se podia
 //        usando numeros.set(i, numeros.get(i) )
