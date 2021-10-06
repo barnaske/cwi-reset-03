@@ -13,4 +13,14 @@ public class ReposicaoFornecedor {
             ItensPorQuantidade.cafe = random.nextInt(40) + 10;
         }
     }
+
+    static void reporItemQtd(String item, int qtd) {
+        if ("leite".equals(item)) {
+            ItensPorQuantidade.leite =+ qtd;
+        }
+
+        if ("cafe".equals(item)) {
+            ItensPorQuantidade.cafe =+ qtd;
+        }
+    }
 }
