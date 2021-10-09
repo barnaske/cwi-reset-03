@@ -1,26 +1,17 @@
 package br.com.cwi.reset.exercicios.aula2;
 
-public class Diretor {
-    private String nome;
-    private int idade;
-    private int quantFilmes;
-    private EnumGenero genero;
+public class Diretor extends Pessoa {
 
-    public Diretor(String nome, int idade, int quantFilmes, EnumGenero EnumGenero) {
-        this.nome = nome;
-        this.idade = idade;
-        this.quantFilmes = quantFilmes;
-        this.genero = EnumGenero;
+    private int quantidadeFilmes;
+
+    public Diretor(String nome, int idade, EnumGenero genero, int quantFilmes) {
+        super(nome, idade, genero);
+        this.quantidadeFilmes = quantFilmes;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void diretorStatus() {
-        System.out.println("Nome: "+this.getNome());
-        System.out.println("Idade: "+idade);
-        System.out.println("Quantidade de Filmes: "+quantFilmes);
-        System.out.println("Genero: "+genero.getDesc());
+    @Override
+    public void pessoaStatus() {
+        super.pessoaStatus();
+        System.out.println("Quantidade de filmes: "+this.quantidadeFilmes);
     }
 }
