@@ -1,11 +1,13 @@
 package br.com.cwi.reset.exercicios.aula2;
 
+import java.time.LocalDate;
+
 public class Ator extends Pessoa {
 
     private int numeroOscar;
 
-    public Ator(String nome, int idade, EnumGenero genero, int numOscar) {
-        super(nome, idade, genero);
+    public Ator(String nome, LocalDate dataNascimento, EnumGenero genero, int numOscar) {
+        super(nome, dataNascimento, genero);
         this.numeroOscar = numOscar;
     }
 

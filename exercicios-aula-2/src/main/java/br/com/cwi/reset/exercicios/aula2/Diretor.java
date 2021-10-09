@@ -1,11 +1,13 @@
 package br.com.cwi.reset.exercicios.aula2;
 
+import java.time.LocalDate;
+
 public class Diretor extends Pessoa {
 
     private int quantidadeFilmes;
 
-    public Diretor(String nome, int idade, EnumGenero genero, int quantFilmes) {
-        super(nome, idade, genero);
+    public Diretor(String nome, LocalDate dataNascimento, EnumGenero genero, int quantFilmes) {
+        super(nome, dataNascimento, genero);
         this.quantidadeFilmes = quantFilmes;
     }
 
