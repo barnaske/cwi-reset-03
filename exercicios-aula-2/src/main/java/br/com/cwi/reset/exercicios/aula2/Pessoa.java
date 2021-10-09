@@ -1,6 +1,6 @@
 package br.com.cwi.reset.exercicios.aula2;
 
-public class Pessoa {
+public abstract class Pessoa {
     private String nome;
     private int idade;
     private EnumGenero genero;
