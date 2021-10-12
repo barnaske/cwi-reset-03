@@ -1,4 +1,4 @@
 package br.com.cwi.reset.augustobarnaske;
 
-public class Diretor {
+public enum TipoAtuacao {
 }
