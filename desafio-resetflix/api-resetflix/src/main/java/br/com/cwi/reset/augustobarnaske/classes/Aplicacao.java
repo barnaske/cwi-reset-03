@@ -1,7 +1,6 @@
 package br.com.cwi.reset.augustobarnaske.classes;
 
 import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
-import br.com.cwi.reset.augustobarnaske.exceptions.CampoObrigatorioException;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -12,19 +11,15 @@ public class Aplicacao {
     public static void main(String[] args) {
         FakeDatabase fakeDatabase = new FakeDatabase();
 
-        String nome = "Will Smith";
+        String nome = "";
         LocalDate dataNascimento = LocalDate.of(1968, Month.SEPTEMBER, 25);
         StatusCarreira statusCarreira = StatusCarreira.EM_ATIVIDADE;
         Integer anoInicioAtividade = 1986;
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
-        AtorService atorService = new AtorService(nome, dataNascimento, statusCarreira, anoInicioAtividade, fakeDatabase);
+        AtorService atorService = new AtorService(fakeDatabase);
 
-        try {
-            atorService.criarAtor(atorRequest);
-        } catch (CampoObrigatorioException e) {
-            System.out.println(e.getMessage());
-        }
+        atorService.criarAtor(atorRequest);
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 

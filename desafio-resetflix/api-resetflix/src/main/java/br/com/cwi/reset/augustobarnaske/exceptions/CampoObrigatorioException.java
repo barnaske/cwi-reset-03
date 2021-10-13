@@ -1,8 +1,16 @@
 package br.com.cwi.reset.augustobarnaske.exceptions;
 
-public class CampoObrigatorioException extends Exception{
+import br.com.cwi.reset.augustobarnaske.classes.AtorService;
 
-    public CampoObrigatorioException() {
-        super("Campo obrigatório não informado. Favor informar o campo {campo}.");
+import java.text.MessageFormat;
+import java.util.List;
+
+public class CampoObrigatorioException extends Exception {
+
+    public CampoObrigatorioException(List<String> camposFaltantes) {
+        for (int i = 0; i < camposFaltantes.size(); i++) {
+            System.out.println("Campo obrigatório não informado. Favor informar o campo %s.".formatted(camposFaltantes.get(i)));
+        }
     }
+
 }

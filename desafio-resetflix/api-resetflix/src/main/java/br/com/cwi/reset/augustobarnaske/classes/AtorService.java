@@ -4,20 +4,60 @@ import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
 import br.com.cwi.reset.augustobarnaske.exceptions.CampoObrigatorioException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class AtorService extends Ator {
+public class AtorService {
 
     private FakeDatabase fakeDatabase;
 
-    public AtorService(String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade, FakeDatabase fakeDatabase) {
-        super(nome, dataNascimento, statusCarreira, anoInicioAtividade);
+    public AtorService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
     }
 
+
+
     // Demais métodos da classe
 
-    public void criarAtor(AtorRequest atorRequest) throws CampoObrigatorioException {
+    public void criarAtor(AtorRequest atorRequest){
+        try{
+            checaCamposObrigatorios();
+        } catch (CampoObrigatorioException e){
+            System.out.println(e.getMessage());
+        }
+
         AtorRequest.criarAtor(atorRequest);
+    }
+
+    public void checaCamposObrigatorios() throws CampoObrigatorioException {
+        String nome = Ator.getNome();
+        LocalDate dataNascimento = Ator.getDataNascimento();
+        StatusCarreira statusCarreira = Ator.getStatusCarreira();
+        Integer anoInicioAtividade = Ator.getAnoInicioAtividade();
+
+        List<String> camposFaltantes = new ArrayList<>();
+
+        if (nome.isEmpty()){
+            camposFaltantes.add("Nome");
+        }
+
+        if (dataNascimento == null){
+            camposFaltantes.add("Data de Nascimento");
+        }
+
+        if (statusCarreira == null){
+            camposFaltantes.add("Status da Carreira");
+        }
+
+        if (anoInicioAtividade == null){
+            camposFaltantes.add("Ano de Início da Atividade");
+        }
+
+        if (!camposFaltantes.isEmpty()){
+            throw new CampoObrigatorioException(camposFaltantes);
+        }
+
     }
 
 }
