@@ -1,17 +1,21 @@
 package br.com.cwi.reset.augustobarnaske;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
+
 public class Aplicacao {
 
     public static void main(String[] args) {
         FakeDatabase fakeDatabase = new FakeDatabase();
-
-        AtorService atorService = new AtorService(fakeDatabase);
 
         String nome = "Will Smith";
         LocalDate dataNascimento = LocalDate.of(1968, Month.SEPTEMBER, 25);
         StatusCarreira statusCarreira = StatusCarreira.EM_ATIVIDADE;
         Integer anoInicioAtividade = 1986;
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
+
+        AtorService atorService = new AtorService(nome, dataNascimento, statusCarreira, anoInicioAtividade, fakeDatabase);
 
         atorService.criarAtor(atorRequest);
 

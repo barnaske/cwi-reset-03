@@ -21,4 +21,8 @@ public class Ator {
         this.statusCarreira = statusCarreira;
         this.anoInicioAtividade = anoInicioAtividade;
     }
+
+    public String getNome() {
+        return nome;
+    }
 }

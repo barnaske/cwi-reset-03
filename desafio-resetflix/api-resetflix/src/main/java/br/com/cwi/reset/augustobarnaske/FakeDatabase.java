@@ -3,12 +3,12 @@ package br.com.cwi.reset.augustobarnaske;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FakeDatabase {
+public class FakeDatabase{
 
-    private List<Ator> atores = new ArrayList<>();
+    private static List<Ator> atores = new ArrayList<>();
     private List<Diretor> diretores = new ArrayList<>();
 
-    public void persisteAtor(Ator ator) {
+    public static void persisteAtor(Ator ator) {
         atores.add(ator);
     }
 
