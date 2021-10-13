@@ -1,4 +1,4 @@
-package br.com.cwi.reset.augustobarnaske;
+package br.com.cwi.reset.augustobarnaske.classes;
 
 import java.util.ArrayList;
 import java.util.List;

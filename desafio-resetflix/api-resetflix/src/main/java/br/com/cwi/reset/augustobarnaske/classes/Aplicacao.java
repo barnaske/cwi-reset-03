@@ -1,4 +1,7 @@
-package br.com.cwi.reset.augustobarnaske;
+package br.com.cwi.reset.augustobarnaske.classes;
+
+import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
+import br.com.cwi.reset.augustobarnaske.exceptions.CampoObrigatorioException;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -17,7 +20,11 @@ public class Aplicacao {
 
         AtorService atorService = new AtorService(nome, dataNascimento, statusCarreira, anoInicioAtividade, fakeDatabase);
 
-        atorService.criarAtor(atorRequest);
+        try {
+            atorService.criarAtor(atorRequest);
+        } catch (CampoObrigatorioException e) {
+            System.out.println(e.getMessage());
+        }
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 

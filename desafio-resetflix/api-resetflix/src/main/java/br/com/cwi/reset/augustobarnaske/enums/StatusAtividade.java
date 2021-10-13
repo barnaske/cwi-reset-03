@@ -1,4 +1,4 @@
-package br.com.cwi.reset.augustobarnaske;
+package br.com.cwi.reset.augustobarnaske.enums;
 
 public enum StatusAtividade {
     EM_ATIVIDADE ("Em Atividade"),

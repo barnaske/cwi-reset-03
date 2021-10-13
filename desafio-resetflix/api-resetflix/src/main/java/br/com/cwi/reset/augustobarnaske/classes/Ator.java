@@ -1,4 +1,6 @@
-package br.com.cwi.reset.augustobarnaske;
+package br.com.cwi.reset.augustobarnaske.classes;
+
+import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
 
 import java.time.LocalDate;
 
@@ -8,7 +10,7 @@ public class Ator {
     // *Caso fosse usar uma aplicação multithread seria um problema imenso usar um counter,
     // o ideal seria usar private static AtomicInteger atomicInteger = new AtomicInteger(0), o que seria threadsafe;
     // como não entendo essa implementação irei usar o counter e corrijo caso os monitores achem coerente.
-    private Integer atorId;
+    private static Integer atorId;
     private String nome;
     private LocalDate dataNascimento;
     private StatusCarreira statusCarreira;
@@ -24,5 +26,11 @@ public class Ator {
 
     public String getNome() {
         return nome;
+    }
+
+
+
+    public static Integer getAtorId(){
+        return atorId;
     }
 }

@@ -1,4 +1,6 @@
-package br.com.cwi.reset.augustobarnaske;
+package br.com.cwi.reset.augustobarnaske.classes;
+
+import br.com.cwi.reset.augustobarnaske.enums.StatusAtividade;
 
 public class Estudio {
 
