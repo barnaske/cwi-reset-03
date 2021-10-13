@@ -21,6 +21,9 @@ public class AtorService {
     // Demais métodos da classe
 
     public void criarAtor(AtorRequest atorRequest){
+
+//        O fluxo começa fazendo a checagem das regras dentro dos blocos de trycatch
+
         try{
             checaCamposObrigatorios();
         } catch (CampoObrigatorioException e){
@@ -31,6 +34,10 @@ public class AtorService {
     }
 
     public void checaCamposObrigatorios() throws CampoObrigatorioException {
+
+//        O método vai buscar as informações que precisa chegar do Ator e, caso encontre uma vazia
+//        ele vai adicionar na lista dos campos faltantes, se a lista não estiver vazia a exception é lançada
+
         String nome = Ator.getNome();
         LocalDate dataNascimento = Ator.getDataNascimento();
         StatusCarreira statusCarreira = Ator.getStatusCarreira();
