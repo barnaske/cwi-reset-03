@@ -11,7 +11,7 @@ public class Aplicacao {
     public static void main(String[] args) {
         FakeDatabase fakeDatabase = new FakeDatabase();
 
-        String nome = "";
+        String nome = "Will";
         LocalDate dataNascimento = LocalDate.of(1968, Month.SEPTEMBER, 25);
         StatusCarreira statusCarreira = StatusCarreira.EM_ATIVIDADE;
         Integer anoInicioAtividade = 1986;

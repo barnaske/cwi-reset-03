@@ -2,6 +2,7 @@ package br.com.cwi.reset.augustobarnaske.classes;
 
 import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
 import br.com.cwi.reset.augustobarnaske.exceptions.CampoObrigatorioException;
+import br.com.cwi.reset.augustobarnaske.exceptions.NomeSobrenomeException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,11 +27,14 @@ public class AtorService {
 
         try{
             checaCamposObrigatorios();
+            checaNomeSobrenome();
+            AtorRequest.criarAtor(atorRequest);
         } catch (CampoObrigatorioException e){
+            System.out.println(e.getMessage());
+        } catch (NomeSobrenomeException e){
             System.out.println(e.getMessage());
         }
 
-        AtorRequest.criarAtor(atorRequest);
     }
 
     public void checaCamposObrigatorios() throws CampoObrigatorioException {
@@ -65,6 +69,19 @@ public class AtorService {
             throw new CampoObrigatorioException(camposFaltantes);
         }
 
+    }
+
+    public void checaNomeSobrenome() throws NomeSobrenomeException {
+        
+//      O método vai lançar o nome do ator pra nome e depois vai usar um split com \\s+ de regex, que representa mais
+//      de um espaçamento dentro da variável, se o tamanho da variável onde rolou o split for menor que 2, lança a exceção
+
+        String nome = Ator.getNome();
+        String[] nomeSobrenome = nome.split("\\s+");
+
+        if (nomeSobrenome.length < 2) {
+            throw new NomeSobrenomeException();
+        }
     }
 
 }
