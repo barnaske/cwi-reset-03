@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Ator {
 
-    private static int atorIdCounter = 0;
+//    private static int atorIdCounter = 0;
 
     // *Caso fosse usar uma aplicação multithread seria um problema imenso usar um counter,
     // o ideal seria usar private static AtomicInteger atomicInteger = new AtomicInteger(0), o que seria threadsafe;
@@ -19,7 +19,6 @@ public class Ator {
     private static Integer anoInicioAtividade;
 
     public Ator(String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade) {
-        this.atorId = atorIdCounter++;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.statusCarreira = statusCarreira;
@@ -44,5 +43,9 @@ public class Ator {
 
     public static Integer getAtorId(){
         return atorId;
+    }
+
+    public void setAtorId(int id){
+        this.atorId = id;
     }
 }
