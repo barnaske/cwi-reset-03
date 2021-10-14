@@ -5,7 +5,6 @@ import br.com.cwi.reset.augustobarnaske.exceptions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -47,7 +46,7 @@ public class AtorService{
             atorRequest.setAtorId(atorId);
             FakeDatabase.persisteAtor(atorRequest);
             System.out.println("-------------Em teoria o ator foi inserido com sucesso-------------");
-            System.out.println("-------------FINALIZANDO INSERÇÃO DE ATOR \n");
+            System.out.println("-------------FINALIZANDO INSERÇÃO DE ATOR------------- \n");
         } catch (CampoObrigatorioException e){
             System.out.println(e.getMessage());
         } catch (NomeSobrenomeException e){
@@ -69,7 +68,7 @@ public class AtorService{
 
         String nome = atorRequest.getNome();
         LocalDate dataNascimento = atorRequest.getDataNascimento();
-        StatusCarreira statusCarreira = atorRequest.getStatusCarreira();
+        String statusCarreira = atorRequest.getStatusCarreira();
         Integer anoInicioAtividade = atorRequest.getAnoInicioAtividade();
 
         List<String> camposFaltantes = new ArrayList<>();
@@ -160,7 +159,8 @@ public class AtorService{
 
     public static List<Ator> listarAtoresEmAtividade(String filtroNome) throws ListaAtoresEmAtividadeVaziaException, ListaAtoresEmAtividadeSemCorrespondenciaException{
 //      Esse método insere os atores da FakeDatabase.recuperaAtores em uma lista usável dentro dessa classe e trabalha um stream em cima dela
-//      A stream roda duas filtragens para separar pelo filtro usado e por EM_ATIVIDADE e depois imprimi os valores encontrados
+//      A stream roda duas filtragens para separar pelo filtro usado e por EM_ATIVIDADE (fiz um getter para pegar o
+//      própri enum e não a descrição) e depois imprimi os valores encontrados
 //      Se por ventura ela estiver vazia ou não for encontrado nenhuma correspondencia pelo filtro, ela lança exceção para cada uma dessas situações
 
         List<Ator> atoresCadastrados = new ArrayList<>();
@@ -168,7 +168,7 @@ public class AtorService{
 
         atoresCadastrados.stream()
                 .filter(x -> x.getNome().contains(filtroNome))
-                .filter(x -> x.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE))
+                .filter(x -> x.getStatusCarreiraCrude().equals(StatusCarreira.EM_ATIVIDADE))
                 .forEach(x -> System.out.println("ID: "+x.getAtorId()+" | ID: "+x.getNome()+" | Data Nascimento: "+x.getDataNascimento()));
 
         if (atoresCadastrados.isEmpty()){
@@ -183,6 +183,33 @@ public class AtorService{
             throw new ListaAtoresEmAtividadeSemCorrespondenciaException(filtroNome);
         }
 
+
+        return atoresCadastrados;
+    }
+
+    public List<Ator> consultarAtor(Integer id) throws ConsultaAtorException{
+//      Esse método ficou um pouco bagunçado, acredito que há mil formas de otimizar ele, mas como preferi usar stream, ficou funcional dessa forma
+//      Pra começar o retorno solicitado foi Ator, porém como trabalhei com Stream retornei uma lista com o ator encontrado ou a exceção que foi lançada
+//      Instanciei a lista da FakeDatabase.recuperaAtores() em atoresCadastrados e criei um Stream<Ator> Stream.of para conseguir checar diretamente
+//      Se o id passado como parametro está dentro dos atoresCadastrados, faço um toList().isEmpty() para checar se a lista está vazia logo
+//      de cara para já lançar a exceção. Se não tiver vazia, faço uma segunda rodada de stream, porém em cima de atoresCadastrados
+//      e filtrando pelo ID e imprimindo quem foi encontrado, no final retorno a lista atoresCadastrados streamada
+
+        List<Ator> atoresCadastrados = new ArrayList<>();
+        atoresCadastrados = FakeDatabase.recuperaAtores();
+
+        Stream<Ator> atorConsultado = Stream.of();
+        atorConsultado = atoresCadastrados.stream()
+                .filter(x -> x.getAtorId().equals(id));
+
+
+        if (atorConsultado.toList().isEmpty()){
+            throw new ConsultaAtorException(id);
+        }
+
+        atoresCadastrados.stream()
+                .filter(x -> x.getAtorId().equals(id))
+                .forEach(x -> System.out.println("ID: "+x.getAtorId()+" | Nome: "+x.getNome()+" | Data Nasc: "+x.getDataNascimento()+" | Status Carreira: "+x.getStatusCarreira()));
 
         return atoresCadastrados;
     }

@@ -35,8 +35,12 @@ public class Ator {
         return this.dataNascimento;
     }
 
-    public StatusCarreira getStatusCarreira(){
-        return this.statusCarreira;
+    public String getStatusCarreira(){
+        return statusCarreira.getDescricao();
+    }
+
+    public StatusCarreira getStatusCarreiraCrude(){
+        return statusCarreira;
     }
 
     public Integer getAnoInicioAtividade(){

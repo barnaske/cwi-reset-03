@@ -11,6 +11,6 @@ public enum StatusCarreira {
     }
 
     public String getDescricao() {
-        return descricao;
+        return this.descricao;
     }
 }

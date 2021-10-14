@@ -1,6 +1,7 @@
 package br.com.cwi.reset.augustobarnaske.classes;
 
 import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
+import br.com.cwi.reset.augustobarnaske.exceptions.ConsultaAtorException;
 import br.com.cwi.reset.augustobarnaske.exceptions.ListaAtoresEmAtividadeSemCorrespondenciaException;
 import br.com.cwi.reset.augustobarnaske.exceptions.ListaAtoresEmAtividadeVaziaException;
 
@@ -21,19 +22,19 @@ public class Aplicacao {
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
         AtorRequest segundoAtorRequest = new AtorRequest(
-                "Will Smith 2",
+                "Jansen Smith 2",
                 LocalDate.of(1950, 10, 2),
                 StatusCarreira.EM_ATIVIDADE,
                 1996);
 
         AtorRequest terceiro = new AtorRequest(
-                "Will Smith 3",
+                "Rofl Smith 3",
                 LocalDate.of(1951, 10, 2),
                 StatusCarreira.EM_ATIVIDADE,
                 1996);
 
         AtorRequest quarto = new AtorRequest(
-                "Will Smith 4",
+                "Papapa Smith 4",
                 LocalDate.of(1951, 10, 2),
                 StatusCarreira.APOSENTADO,
                 1996);
@@ -60,7 +61,7 @@ public class Aplicacao {
         System.out.println("");
 
         try{
-            atorService.listarAtoresEmAtividade("Smith");
+            atorService.listarAtoresEmAtividade("Will");
         }catch (ListaAtoresEmAtividadeVaziaException e){
             System.out.println(e.getMessage());
         }catch (ListaAtoresEmAtividadeSemCorrespondenciaException e){
@@ -69,6 +70,18 @@ public class Aplicacao {
 
         System.out.println("");
         System.out.println("---Fim da listagem de atores---\n");
+        int id = 9;
+        System.out.println("Tentando consultar um Ator pelo ID, usando ID %s!".formatted(id));
+        System.out.println("");
+
+        try{
+            atorService.consultarAtor(id);
+        }catch (ConsultaAtorException e){
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("");
+        System.out.println("---Fim da consulta---\n");
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 
