@@ -12,7 +12,7 @@ public class CampoObrigatorioException extends Exception {
 //        Usando um for pra ler o que tem dentro da campos faltantes e imprimir na tela quando for coletada a exceção.
 
         for (int i = 0; i < camposFaltantes.size(); i++) {
-            System.out.println("Campo obrigatório não informado. Favor informar o campo %s.".formatted(camposFaltantes.get(i)));
+            System.out.println("Campo obrigatório não informado. Favor informar o campo %s. \n".formatted(camposFaltantes.get(i)));
         }
     }
 

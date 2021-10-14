@@ -11,12 +11,14 @@ public class Ator {
     // *Caso fosse usar uma aplicação multithread seria um problema imenso usar um counter,
     // o ideal seria usar private static AtomicInteger atomicInteger = new AtomicInteger(0), o que seria threadsafe;
     // como não entendo essa implementação irei usar o counter e corrijo caso os monitores achem coerente.
+//    O int atorIdCounter só foi movido pra AtorService pq interpreto pela leitura das regras de negócio que o id deve ser gerado e contado lá
+//    Mas esse comentário ainda vai ficar aqui pois ele explica o motivo de usar essa implementação.
 
-    private static Integer atorId;
-    private static String nome;
-    private static LocalDate dataNascimento;
-    private static StatusCarreira statusCarreira;
-    private static Integer anoInicioAtividade;
+    private Integer atorId;
+    private String nome;
+    private LocalDate dataNascimento;
+    private StatusCarreira statusCarreira;
+    private Integer anoInicioAtividade;
 
     public Ator(String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade) {
         this.nome = nome;
@@ -25,24 +27,24 @@ public class Ator {
         this.anoInicioAtividade = anoInicioAtividade;
     }
 
-    public static String getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public static LocalDate getDataNascimento(){
-        return dataNascimento;
+    public LocalDate getDataNascimento(){
+        return this.dataNascimento;
     }
 
-    public static StatusCarreira getStatusCarreira(){
-        return statusCarreira;
+    public StatusCarreira getStatusCarreira(){
+        return this.statusCarreira;
     }
 
-    public static Integer getAnoInicioAtividade(){
-        return anoInicioAtividade;
+    public Integer getAnoInicioAtividade(){
+        return this.anoInicioAtividade;
     }
 
-    public static Integer getAtorId(){
-        return atorId;
+    public Integer getAtorId(){
+        return this.atorId;
     }
 
     public void setAtorId(int id){
@@ -50,9 +52,10 @@ public class Ator {
     }
 
     public static void getAtorStatus(AtorRequest atorRequest){
-        System.out.println(getNome());
-        System.out.println(getDataNascimento());
-        System.out.println(getAnoInicioAtividade());
-        System.out.println(getAtorId());
+        System.out.println("Nome: "+atorRequest.getNome());
+        System.out.println("Data Nasc: "+atorRequest.getDataNascimento());
+        System.out.println("Ano Inicio: "+atorRequest.getAnoInicioAtividade());
+        System.out.println("ID: "+atorRequest.getAtorId());
+        System.out.println("------Fim das Caracteristicas------\n");
     }
 }

@@ -18,19 +18,39 @@ public class Aplicacao {
         Integer anoInicioAtividade = 1986;
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
-        atorService.criarAtor(atorRequest);
-        System.out.println("------Imprimindo status para o Ator Request------");
-        Ator.getAtorStatus(atorRequest);
-
         AtorRequest segundoAtorRequest = new AtorRequest(
-                "Testando inserir duas pessoas",
+                "Testando inserir duas pessoas com mesmo nome",
                 LocalDate.of(1950, 10, 2),
                 StatusCarreira.EM_ATIVIDADE,
                 1996);
 
+        AtorRequest terceiro = new AtorRequest(
+                "Testando inserir duas pessoas com mesmo nome",
+                LocalDate.of(1951, 10, 2),
+                StatusCarreira.EM_ATIVIDADE,
+                1996);
+
+        AtorRequest quarto = new AtorRequest(
+                "Sónome",
+                LocalDate.of(1951, 10, 2),
+                StatusCarreira.EM_ATIVIDADE,
+                1996);
+
+        atorService.criarAtor(atorRequest);
+//        System.out.println("------Imprimindo status para o Ator Request------");
+//        Ator.getAtorStatus(atorRequest);
+
         atorService.criarAtor(segundoAtorRequest);
-        System.out.println("------Imprimindo status para o Ator Request 2------");
-        Ator.getAtorStatus(segundoAtorRequest);
+//        System.out.println("------Imprimindo status para o Ator Request 2------");
+//        Ator.getAtorStatus(segundoAtorRequest);
+
+        atorService.criarAtor(terceiro);
+//        System.out.println("------Imprimindo status para o Ator Request 3------");
+//        Ator.getAtorStatus(terceiro);
+
+        atorService.criarAtor(quarto);
+//        System.out.println("------Imprimindo status para o Ator Request 3------");
+////        Ator.getAtorStatus(quarto);
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 

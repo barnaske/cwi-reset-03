@@ -10,8 +10,6 @@ public class FakeDatabase{
 
     public static void persisteAtor(Ator ator) {
         atores.add(ator);
-        System.out.println("Adicionando ator com ID:"+Ator.getAtorId());
-        System.out.println("Com nome: "+Ator.getNome());
     }
 
     public static List<Ator> recuperaAtores() {

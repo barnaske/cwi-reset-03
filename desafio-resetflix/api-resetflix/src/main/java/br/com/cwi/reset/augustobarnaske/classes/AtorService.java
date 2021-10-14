@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AtorService {
+public class AtorService{
 
     private FakeDatabase fakeDatabase;
     private Integer atorIdCounter = 0;
@@ -18,28 +18,34 @@ public class AtorService {
 
     // Demais métodos da classe
 
-    public void criarAtor(AtorRequest variavel){
+    public void criarAtor(AtorRequest atorRequest){
 
 //        O fluxo começa fazendo a checagem das regras dentro do bloco de try e se passar ele cria o ator
-//        cada exceção é tratada por um catch especifico seu, largando a mensagem na tela
+//        cada exceção é tratada por um catch especifico seu, largando a mensagem na tela e não inserindo o ator
+//        por meio do FakeDatabase.persisteAtor().
+//        Precisei de algumas mensagens explicitando cada passo, pra entender o que estava acontecendo de problemas e conseguir corrigir
+//        Também imprimi o estado de todos os campos para garantir o sucesso
 
         try{
+            System.out.println("Iniciando a inserção de um novo ator agora!");
             System.out.println("Iniciando a testagem das regras:");
-            checaCamposObrigatorios();
-            checaNomeSobrenome();
-            checaDataNascimento();
-            checaAnoInicioAtividade();
-            nomeDuplicado();
-            System.out.println("----------Concluida---------");
+            checaCamposObrigatorios(atorRequest);
+            checaNomeSobrenome(atorRequest);
+            checaDataNascimento(atorRequest);
+            checaAnoInicioAtividade(atorRequest);
+            nomeDuplicado(atorRequest);
+            System.out.println("----------Checagem Concluida---------");
             Integer atorId = gerarAtorId();
-            System.out.println("Setando Id do Ator como: "+ atorId);
-            System.out.println("Setando nome como: "+variavel.getNome());
-            System.out.println("Setando Data Nasc como: "+variavel.getDataNascimento());
-            System.out.println("Setando Ano Inicio como: "+variavel.getAnoInicioAtividade());
-            System.out.println("Setando Status Carreira como: "+variavel.getStatusCarreira());
-            variavel.setAtorId(atorId);
-            FakeDatabase.persisteAtor(variavel);
+            System.out.println("Gerado Id do Ator como: "+ atorId);
+            System.out.println("Nome como: "+atorRequest.getNome());
+            System.out.println("Data Nasc como: "+atorRequest.getDataNascimento());
+            System.out.println("Ano Inicio como: "+atorRequest.getAnoInicioAtividade());
+            System.out.println("Status Carreira como: "+atorRequest.getStatusCarreira());
+            System.out.println("---Se não houve exceção, o ator será inserido agora.---");
+            atorRequest.setAtorId(atorId);
+            FakeDatabase.persisteAtor(atorRequest);
             System.out.println("-------------Em teoria o ator foi inserido com sucesso-------------");
+            System.out.println("-------------FINALIZANDO INSERÇÃO DE ATOR \n");
         } catch (CampoObrigatorioException e){
             System.out.println(e.getMessage());
         } catch (NomeSobrenomeException e){
@@ -54,15 +60,15 @@ public class AtorService {
 
     }
 
-    public void checaCamposObrigatorios() throws CampoObrigatorioException {
+    public void checaCamposObrigatorios(AtorRequest atorRequest) throws CampoObrigatorioException {
 
 //        O método vai buscar as informações que precisa chegar do Ator e, caso encontre uma vazia
 //        ele vai adicionar na lista dos campos faltantes, se a lista não estiver vazia a exception é lançada
 
-        String nome = AtorRequest.getNome();
-        LocalDate dataNascimento = AtorRequest.getDataNascimento();
-        StatusCarreira statusCarreira = AtorRequest.getStatusCarreira();
-        Integer anoInicioAtividade = AtorRequest.getAnoInicioAtividade();
+        String nome = atorRequest.getNome();
+        LocalDate dataNascimento = atorRequest.getDataNascimento();
+        StatusCarreira statusCarreira = atorRequest.getStatusCarreira();
+        Integer anoInicioAtividade = atorRequest.getAnoInicioAtividade();
 
         List<String> camposFaltantes = new ArrayList<>();
 
@@ -85,19 +91,18 @@ public class AtorService {
         if (!camposFaltantes.isEmpty()){
             throw new CampoObrigatorioException(camposFaltantes);
         }
-
     }
 
     private Integer gerarAtorId(){
         return ++atorIdCounter;
     }
 
-    public void checaNomeSobrenome() throws NomeSobrenomeException {
+    public void checaNomeSobrenome(AtorRequest atorRequest) throws NomeSobrenomeException {
 
 //      O método vai lançar o nome do ator pra nome e depois vai usar um split com \\s+ de regex, que representa mais
 //      de um espaçamento dentro da variável, se o tamanho da variável onde rolou o split for menor que 2, lança a exceção
 
-        String nome = Ator.getNome();
+        String nome = atorRequest.getNome();
         String[] nomeSobrenome = nome.split("\\s+");
 
         if (nomeSobrenome.length < 2) {
@@ -105,23 +110,23 @@ public class AtorService {
         }
     }
 
-    public void checaDataNascimento() throws DataNascimentoInvalidaException {
+    public void checaDataNascimento(AtorRequest atorRequest) throws DataNascimentoInvalidaException {
 //      O método lança a data de hoje em uma variável e usar a função isAfter na dataNascimento
 //      se confirmar lança a exceção
         LocalDate hoje = LocalDate.now();
-        LocalDate dataNascimento = AtorRequest.getDataNascimento();
+        LocalDate dataNascimento = atorRequest.getDataNascimento();
 
         if (dataNascimento.isAfter(hoje)){
             throw new DataNascimentoInvalidaException();
         }
     }
 
-    public void checaAnoInicioAtividade() throws AnoInicioAtividadeInvalidoException {
+    public void checaAnoInicioAtividade(AtorRequest atorRequest) throws AnoInicioAtividadeInvalidoException {
 //      O metodo usar a função getYear na data de nascimento do ator para lançar somente o ano em uma int
 //      Se o ano inicio menor que o nascimento lança uma exceção
 
-        int anoNascimento = Ator.getDataNascimento().getYear();
-        Integer anoInicioAtividade = AtorRequest.getAnoInicioAtividade();
+        int anoNascimento = atorRequest.getDataNascimento().getYear();
+        Integer anoInicioAtividade = atorRequest.getAnoInicioAtividade();
 
         if (anoInicioAtividade < anoNascimento){
             throw new AnoInicioAtividadeInvalidoException();
@@ -129,22 +134,25 @@ public class AtorService {
 
     }
 
-    public void nomeDuplicado() throws NomeDuplicadoException {
+    public void nomeDuplicado(AtorRequest atorRequest) throws NomeDuplicadoException {
+
+//      O método importa pra dentro de uma lista nessa classe a lista que vem do fakedatabase e faz a checagem
+//      Para saber se o nome sendo inserido já consta nela, se constar, não executa o FakeDatabase.persisteAtor()
+//      para inserir essa pessoa na lista
+
         List<Ator> atoresCadastrados = new ArrayList<>();
         atoresCadastrados = FakeDatabase.recuperaAtores();
-        String nomeSendoInserido = AtorRequest.getNome();
+        String nomeSendoInserido = atorRequest.getNome();
         int nomesCounter = 0;
 
         for (int i = 0; i < atoresCadastrados.size(); i++){
-            System.out.println("ESTOU DENTRO DO NOME DUPLICADO E OLHANDO O NOME: "+atoresCadastrados.get(i).getNome());
             if (nomeSendoInserido.equals(atoresCadastrados.get(i).getNome())){
-                System.out.println("ESTOU CONTANDO 1 POIS TEM DUPLICAÇÃO!");
                 nomesCounter++;
             }
         }
 
-        if (nomesCounter >= 2) {
-            throw new NomeDuplicadoException();
+        if (nomesCounter >= 1) {
+            throw new NomeDuplicadoException(atorRequest);
         }
     }
 
