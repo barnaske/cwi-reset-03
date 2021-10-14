@@ -5,7 +5,9 @@ import br.com.cwi.reset.augustobarnaske.exceptions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class AtorService{
 
@@ -154,6 +156,35 @@ public class AtorService{
         if (nomesCounter >= 1) {
             throw new NomeDuplicadoException(atorRequest);
         }
+    }
+
+    public static List<Ator> listarAtoresEmAtividade(String filtroNome) throws ListaAtoresEmAtividadeVaziaException, ListaAtoresEmAtividadeSemCorrespondenciaException{
+//      Esse método insere os atores da FakeDatabase.recuperaAtores em uma lista usável dentro dessa classe e trabalha um stream em cima dela
+//      A stream roda duas filtragens para separar pelo filtro usado e por EM_ATIVIDADE e depois imprimi os valores encontrados
+//      Se por ventura ela estiver vazia ou não for encontrado nenhuma correspondencia pelo filtro, ela lança exceção para cada uma dessas situações
+
+        List<Ator> atoresCadastrados = new ArrayList<>();
+        atoresCadastrados = FakeDatabase.recuperaAtores();
+
+        atoresCadastrados.stream()
+                .filter(x -> x.getNome().contains(filtroNome))
+                .filter(x -> x.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE))
+                .forEach(x -> System.out.println("ID: "+x.getAtorId()+" | ID: "+x.getNome()+" | Data Nascimento: "+x.getDataNascimento()));
+
+        if (atoresCadastrados.isEmpty()){
+            throw new ListaAtoresEmAtividadeVaziaException();
+        }
+
+        Stream<Ator> atoresFiltradosPorNome = Stream.of();
+        atoresFiltradosPorNome = atoresCadastrados.stream()
+                .filter(x -> x.getNome().contains(filtroNome));
+
+        if(atoresFiltradosPorNome.toList().isEmpty()){
+            throw new ListaAtoresEmAtividadeSemCorrespondenciaException(filtroNome);
+        }
+
+
+        return atoresCadastrados;
     }
 
 }

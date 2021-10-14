@@ -44,7 +44,7 @@ public class Ator {
     }
 
     public Integer getAtorId(){
-        return this.atorId;
+        return atorId;
     }
 
     public void setAtorId(int id){
