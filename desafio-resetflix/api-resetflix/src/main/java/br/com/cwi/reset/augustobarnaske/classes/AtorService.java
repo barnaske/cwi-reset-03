@@ -2,6 +2,7 @@ package br.com.cwi.reset.augustobarnaske.classes;
 
 import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
 import br.com.cwi.reset.augustobarnaske.exceptions.CampoObrigatorioException;
+import br.com.cwi.reset.augustobarnaske.exceptions.DataNascimentoInvalidaException;
 import br.com.cwi.reset.augustobarnaske.exceptions.NomeSobrenomeException;
 
 import java.time.LocalDate;
@@ -28,10 +29,13 @@ public class AtorService {
         try{
             checaCamposObrigatorios();
             checaNomeSobrenome();
+            checaDataNascimento();
             AtorRequest.criarAtor(atorRequest);
         } catch (CampoObrigatorioException e){
             System.out.println(e.getMessage());
         } catch (NomeSobrenomeException e){
+            System.out.println(e.getMessage());
+        } catch (DataNascimentoInvalidaException e){
             System.out.println(e.getMessage());
         }
 
@@ -72,7 +76,7 @@ public class AtorService {
     }
 
     public void checaNomeSobrenome() throws NomeSobrenomeException {
-        
+
 //      O método vai lançar o nome do ator pra nome e depois vai usar um split com \\s+ de regex, que representa mais
 //      de um espaçamento dentro da variável, se o tamanho da variável onde rolou o split for menor que 2, lança a exceção
 
@@ -81,6 +85,15 @@ public class AtorService {
 
         if (nomeSobrenome.length < 2) {
             throw new NomeSobrenomeException();
+        }
+    }
+
+    public void checaDataNascimento() throws DataNascimentoInvalidaException {
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataNascimento = Ator.getDataNascimento();
+
+        if (dataNascimento.isAfter(hoje)){
+            throw new DataNascimentoInvalidaException();
         }
     }
 
