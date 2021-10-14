@@ -51,7 +51,7 @@ public class Ator {
         return atorId;
     }
 
-    public void setAtorId(int id){
+    public void setAtorId(Integer id){
         this.atorId = id;
     }
 

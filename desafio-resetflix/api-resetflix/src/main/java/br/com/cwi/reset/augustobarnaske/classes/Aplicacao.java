@@ -1,9 +1,7 @@
 package br.com.cwi.reset.augustobarnaske.classes;
 
 import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
-import br.com.cwi.reset.augustobarnaske.exceptions.ConsultaAtorException;
-import br.com.cwi.reset.augustobarnaske.exceptions.ListaAtoresEmAtividadeSemCorrespondenciaException;
-import br.com.cwi.reset.augustobarnaske.exceptions.ListaAtoresEmAtividadeVaziaException;
+import br.com.cwi.reset.augustobarnaske.exceptions.*;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -14,6 +12,7 @@ public class Aplicacao {
     public static void main(String[] args) {
         FakeDatabase fakeDatabase = new FakeDatabase();
         AtorService atorService = new AtorService(fakeDatabase);
+        DiretorService diretorService = new DiretorService(fakeDatabase);
 
         String nome = "Will Smith";
         LocalDate dataNascimento = LocalDate.of(1958, Month.SEPTEMBER, 25);
@@ -62,9 +61,7 @@ public class Aplicacao {
 
         try{
             atorService.listarAtoresEmAtividade("Smith");
-        }catch (ListaAtoresEmAtividadeVaziaException e){
-            System.out.println(e.getMessage());
-        }catch (ListaAtoresEmAtividadeSemCorrespondenciaException e){
+        }catch (ListaAtoresEmAtividadeVaziaException | ListaAtoresEmAtividadeSemCorrespondenciaException e){
             System.out.println(e.getMessage());
         }
 
@@ -93,14 +90,71 @@ public class Aplicacao {
         }
 
         System.out.println("");
-        System.out.printf("---Fim da Consulta---\n");
+        System.out.printf("---Fim da Consulta---\n\n");
+
+        String nomeDiretor = "Steven Spielberg";
+        LocalDate dataNascimentoDiretor = LocalDate.of(1946, Month.DECEMBER, 18);
+        Integer anoInicioAtividadeDiretor = 1959;
+        DiretorRequest diretorRequest = new DiretorRequest(nomeDiretor, dataNascimentoDiretor, anoInicioAtividadeDiretor);
+
+        DiretorRequest segundoDiretorRequest = new DiretorRequest(
+                "Steven Spielberg 2.0",
+                LocalDate.of(1946, 12, 18),
+                1996);
+
+        DiretorRequest terceiroDiretor = new DiretorRequest(
+                "Steven Spielberg 3.0",
+                LocalDate.of(1946, 12, 18),
+                1996);
+
+        diretorService.criarDiretor(diretorRequest);
+        diretorService.criarDiretor(segundoDiretorRequest);
+        diretorService.criarDiretor(terceiroDiretor);
+
+        System.out.println("Listagem de Diretores:");
+        System.out.println("");
+
+        try{
+            diretorService.listarDiretores("St");
+        }catch (ListaDiretoresSemCorrespondenciaException | ListaDiretoresVaziaException e){
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("");
+        System.out.println("---Fim da listagem de Diretores---\n");
+
+        int idDiretor = 5;
+        System.out.println("Tentando consultar um Diretor pelo ID, usando ID %s!".formatted(idDiretor));
+        System.out.println("");
+
+        try{
+            diretorService.consultarDiretor(idDiretor);
+        }catch (ConsultaDiretorException e){
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("");
+        System.out.println("---Fim da consulta---\n");
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
+        List<Diretor> diretores = fakeDatabase.recuperaDiretores();
 
+        System.out.println("----------Impressão da lista de atores----------\n");
         System.out.println("Deve conter 4 atores, quantidade encontrada: " + atores.size());
         System.out.println("Primeiro ator deve ser 'Will Smith', valor encontrado: " + atores.get(0).getNome());
         for (int i = 0; i < atores.size(); i++){
             System.out.println("Nome: "+atores.get(i).getNome()+" | ID: "+atores.get(i).getAtorId());
         }
+        System.out.println("");
+        System.out.println("----------Impressão da lista de atores finalizada----------\n");
+
+        System.out.println("----------Impressão da lista de diretores finalizada----------\n");
+        System.out.println("Deve conter 3 atores, quantidade encontrada: " + diretores.size());
+        System.out.println("Primeiro ator deve ser 'Steven Spielberg', valor encontrado: " + diretores.get(0).getNome());
+        for (int i = 0; i < diretores.size(); i++){
+            System.out.println("Nome: "+diretores.get(i).getNome()+" | ID: "+diretores.get(i).getDiretorId());
+        }
+        System.out.println("");
+        System.out.println("----------Impressão da lista de atores finalizada----------\n");
     }
 }

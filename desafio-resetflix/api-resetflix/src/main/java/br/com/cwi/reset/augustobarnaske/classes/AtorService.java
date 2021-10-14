@@ -47,18 +47,9 @@ public class AtorService{
             FakeDatabase.persisteAtor(atorRequest);
             System.out.println("-------------Em teoria o ator foi inserido com sucesso-------------");
             System.out.println("-------------FINALIZANDO INSERÇÃO DE ATOR------------- \n");
-        } catch (CampoObrigatorioException e){
-            System.out.println(e.getMessage());
-        } catch (NomeSobrenomeException e){
-            System.out.println(e.getMessage());
-        } catch (DataNascimentoInvalidaException e){
-            System.out.println(e.getMessage());
-        } catch (AnoInicioAtividadeInvalidoException e){
-            System.out.println(e.getMessage());
-        } catch (NomeDuplicadoException e){
+        } catch (CampoObrigatorioException | NomeSobrenomeException | DataNascimentoInvalidaException | AnoInicioAtividadeInvalidoException | NomeDuplicadoException e){
             System.out.println(e.getMessage());
         }
-
     }
 
     public void checaCamposObrigatorios(AtorRequest atorRequest) throws CampoObrigatorioException {

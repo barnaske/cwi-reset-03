@@ -18,4 +18,24 @@ public class Diretor {
         this.dataNascimento = dataNascimento;
         this.anoInicioAtividade = anoInicioAtividade;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public Integer getAnoInicioAtividade() {
+        return anoInicioAtividade;
+    }
+
+    public void setDiretorId(Integer diretorId) {
+        this.diretorId = diretorId;
+    }
+
+    public Integer getDiretorId() {
+        return diretorId;
+    }
 }
