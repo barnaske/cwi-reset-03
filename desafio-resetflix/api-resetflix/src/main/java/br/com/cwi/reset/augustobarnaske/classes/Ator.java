@@ -48,4 +48,11 @@ public class Ator {
     public void setAtorId(int id){
         this.atorId = id;
     }
+
+    public void getAtorStatus(){
+        System.out.println(getNome());
+        System.out.println(getDataNascimento());
+        System.out.println(getAnoInicioAtividade());
+        System.out.println(getAtorId());
+    }
 }
