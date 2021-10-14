@@ -214,4 +214,14 @@ public class AtorService{
         return atoresCadastrados;
     }
 
+    public List<Ator> consultarAtores() throws ListaAtoresEmAtividadeVaziaException{
+//      Instanciada a lista todosAtores usando o recupera atores e usado um
+//      stream com foreach para imprimir na tela todos os presentes
+        List<Ator> todosAtores = FakeDatabase.recuperaAtores();
+
+        todosAtores.stream()
+                .forEach(x -> System.out.println("ID: "+x.getAtorId()+" | Nome: "+x.getNome()+" | Data Nasc: "+x.getDataNascimento()+" | Ano Inicio Atividade: "+x.getAnoInicioAtividade()+" | Status Carreira: "+x.getStatusCarreira()));
+
+        return todosAtores;
+    }
 }

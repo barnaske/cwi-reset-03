@@ -61,7 +61,7 @@ public class Aplicacao {
         System.out.println("");
 
         try{
-            atorService.listarAtoresEmAtividade("Will");
+            atorService.listarAtoresEmAtividade("Smith");
         }catch (ListaAtoresEmAtividadeVaziaException e){
             System.out.println(e.getMessage());
         }catch (ListaAtoresEmAtividadeSemCorrespondenciaException e){
@@ -70,7 +70,7 @@ public class Aplicacao {
 
         System.out.println("");
         System.out.println("---Fim da listagem de atores---\n");
-        int id = 9;
+        int id = 3;
         System.out.println("Tentando consultar um Ator pelo ID, usando ID %s!".formatted(id));
         System.out.println("");
 
@@ -82,6 +82,18 @@ public class Aplicacao {
 
         System.out.println("");
         System.out.println("---Fim da consulta---\n");
+
+        System.out.println("Tentando consultar todos os atores cadastrados:");
+        System.out.println("");
+
+        try{
+            atorService.consultarAtores();
+        }catch (ListaAtoresEmAtividadeVaziaException e){
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("");
+        System.out.printf("---Fim da Consulta---\n");
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 
