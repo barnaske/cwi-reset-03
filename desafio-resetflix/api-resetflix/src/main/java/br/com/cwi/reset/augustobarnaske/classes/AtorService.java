@@ -18,21 +18,28 @@ public class AtorService {
 
     // Demais métodos da classe
 
-    public void criarAtor(AtorRequest atorRequest){
+    public void criarAtor(AtorRequest variavel){
 
 //        O fluxo começa fazendo a checagem das regras dentro do bloco de try e se passar ele cria o ator
 //        cada exceção é tratada por um catch especifico seu, largando a mensagem na tela
 
         try{
+            System.out.println("Iniciando a testagem das regras:");
             checaCamposObrigatorios();
             checaNomeSobrenome();
             checaDataNascimento();
             checaAnoInicioAtividade();
             nomeDuplicado();
+            System.out.println("----------Concluida---------");
             Integer atorId = gerarAtorId();
             System.out.println("Setando Id do Ator como: "+ atorId);
-            atorRequest.setAtorId(atorId);
-            FakeDatabase.persisteAtor(atorRequest);
+            System.out.println("Setando nome como: "+variavel.getNome());
+            System.out.println("Setando Data Nasc como: "+variavel.getDataNascimento());
+            System.out.println("Setando Ano Inicio como: "+variavel.getAnoInicioAtividade());
+            System.out.println("Setando Status Carreira como: "+variavel.getStatusCarreira());
+            variavel.setAtorId(atorId);
+            FakeDatabase.persisteAtor(variavel);
+            System.out.println("-------------Em teoria o ator foi inserido com sucesso-------------");
         } catch (CampoObrigatorioException e){
             System.out.println(e.getMessage());
         } catch (NomeSobrenomeException e){
@@ -52,10 +59,10 @@ public class AtorService {
 //        O método vai buscar as informações que precisa chegar do Ator e, caso encontre uma vazia
 //        ele vai adicionar na lista dos campos faltantes, se a lista não estiver vazia a exception é lançada
 
-        String nome = Ator.getNome();
-        LocalDate dataNascimento = Ator.getDataNascimento();
-        StatusCarreira statusCarreira = Ator.getStatusCarreira();
-        Integer anoInicioAtividade = Ator.getAnoInicioAtividade();
+        String nome = AtorRequest.getNome();
+        LocalDate dataNascimento = AtorRequest.getDataNascimento();
+        StatusCarreira statusCarreira = AtorRequest.getStatusCarreira();
+        Integer anoInicioAtividade = AtorRequest.getAnoInicioAtividade();
 
         List<String> camposFaltantes = new ArrayList<>();
 
@@ -102,7 +109,7 @@ public class AtorService {
 //      O método lança a data de hoje em uma variável e usar a função isAfter na dataNascimento
 //      se confirmar lança a exceção
         LocalDate hoje = LocalDate.now();
-        LocalDate dataNascimento = Ator.getDataNascimento();
+        LocalDate dataNascimento = AtorRequest.getDataNascimento();
 
         if (dataNascimento.isAfter(hoje)){
             throw new DataNascimentoInvalidaException();
@@ -114,7 +121,7 @@ public class AtorService {
 //      Se o ano inicio menor que o nascimento lança uma exceção
 
         int anoNascimento = Ator.getDataNascimento().getYear();
-        Integer anoInicioAtividade = Ator.getAnoInicioAtividade();
+        Integer anoInicioAtividade = AtorRequest.getAnoInicioAtividade();
 
         if (anoInicioAtividade < anoNascimento){
             throw new AnoInicioAtividadeInvalidoException();
@@ -125,16 +132,18 @@ public class AtorService {
     public void nomeDuplicado() throws NomeDuplicadoException {
         List<Ator> atoresCadastrados = new ArrayList<>();
         atoresCadastrados = FakeDatabase.recuperaAtores();
-        String nomeSendoInserido = Ator.getNome();
+        String nomeSendoInserido = AtorRequest.getNome();
         int nomesCounter = 0;
 
-        for (Ator nome : atoresCadastrados){
-            if (nomeSendoInserido.equals(nome)){
+        for (int i = 0; i < atoresCadastrados.size(); i++){
+            System.out.println("ESTOU DENTRO DO NOME DUPLICADO E OLHANDO O NOME: "+atoresCadastrados.get(i).getNome());
+            if (nomeSendoInserido.equals(atoresCadastrados.get(i).getNome())){
+                System.out.println("ESTOU CONTANDO 1 POIS TEM DUPLICAÇÃO!");
                 nomesCounter++;
             }
         }
 
-        if (nomesCounter > 1) {
+        if (nomesCounter >= 2) {
             throw new NomeDuplicadoException();
         }
     }
