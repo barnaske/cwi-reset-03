@@ -1,7 +1,7 @@
 package br.com.cwi.reset.augustobarnaske.classes;
 
-import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
 import br.com.cwi.reset.augustobarnaske.exceptions.*;
+import br.com.cwi.reset.augustobarnaske.exceptions.diretores.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -141,7 +141,7 @@ public class DiretorService {
         }
     }
 
-    public static List<Diretor> listarDiretores(String filtroNome) throws ListaDiretoresVaziaException, ListaDiretoresSemCorrespondenciaException{
+    public static List<Diretor> listarDiretores(String filtroNome) throws ListaDiretoresVaziaException, ListaDiretoresSemCorrespondenciaException {
 //      Esse método insere os atores da FakeDatabase.recuperaAtores em uma lista usável dentro dessa classe e trabalha um stream em cima dela
 //      A stream roda duas filtragens para separar pelo filtro usado e por EM_ATIVIDADE (fiz um getter para pegar o
 //      própri enum e não a descrição) e depois imprimi os valores encontrados
@@ -169,7 +169,7 @@ public class DiretorService {
         return diretoresCadastrados;
     }
 
-    public List<Diretor> consultarDiretor(Integer id) throws ConsultaDiretorException{
+    public List<Diretor> consultarDiretor(Integer id) throws ConsultaDiretorException {
 //      Esse método ficou um pouco bagunçado, acredito que há mil formas de otimizar ele, mas como preferi usar stream, ficou funcional dessa forma
 //      Pra começar o retorno solicitado foi Ator, porém como trabalhei com Stream retornei uma lista com o ator encontrado ou a exceção que foi lançada
 //      Instanciei a lista da FakeDatabase.recuperaAtores() em atoresCadastrados e criei um Stream<Ator> Stream.of para conseguir checar diretamente

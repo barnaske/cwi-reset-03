@@ -1,15 +1,26 @@
 package br.com.cwi.reset.augustobarnaske.classes;
 
 import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
-import br.com.cwi.reset.augustobarnaske.exceptions.*;
+import br.com.cwi.reset.augustobarnaske.exceptions.atores.ConsultaAtorException;
+import br.com.cwi.reset.augustobarnaske.exceptions.atores.ListaAtoresEmAtividadeSemCorrespondenciaException;
+import br.com.cwi.reset.augustobarnaske.exceptions.atores.ListaAtoresEmAtividadeVaziaException;
+import br.com.cwi.reset.augustobarnaske.exceptions.diretores.ConsultaDiretorException;
+import br.com.cwi.reset.augustobarnaske.exceptions.diretores.ListaDiretoresSemCorrespondenciaException;
+import br.com.cwi.reset.augustobarnaske.exceptions.diretores.ListaDiretoresVaziaException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+@SpringBootApplication
 public class Aplicacao {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Aplicacao.class, args);
+
+/*
         FakeDatabase fakeDatabase = new FakeDatabase();
         AtorService atorService = new AtorService(fakeDatabase);
         DiretorService diretorService = new DiretorService(fakeDatabase);
@@ -156,5 +167,7 @@ public class Aplicacao {
         }
         System.out.println("");
         System.out.println("----------Impressão da lista de atores finalizada----------\n");
+        */
+
     }
 }

@@ -1,4 +1,4 @@
-package br.com.cwi.reset.augustobarnaske.exceptions;
+package br.com.cwi.reset.augustobarnaske.exceptions.atores;
 
 import br.com.cwi.reset.augustobarnaske.classes.AtorRequest;
 

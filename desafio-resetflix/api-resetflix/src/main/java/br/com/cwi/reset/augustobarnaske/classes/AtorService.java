@@ -2,6 +2,7 @@ package br.com.cwi.reset.augustobarnaske.classes;
 
 import br.com.cwi.reset.augustobarnaske.enums.StatusCarreira;
 import br.com.cwi.reset.augustobarnaske.exceptions.*;
+import br.com.cwi.reset.augustobarnaske.exceptions.atores.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class AtorService{
 
     // Demais métodos da classe
 
-    public void criarAtor(AtorRequest atorRequest){
+    public void criarAtor(AtorRequest atorRequest) throws Exception{
 
 //        O fluxo começa fazendo a checagem das regras dentro do bloco de try e se passar ele cria o ator
 //        cada exceção é tratada por um catch especifico seu, largando a mensagem na tela e não inserindo o ator
@@ -27,7 +28,6 @@ public class AtorService{
 //        Precisei de algumas mensagens explicitando cada passo, pra entender o que estava acontecendo de problemas e conseguir corrigir
 //        Também imprimi o estado de todos os campos para garantir o sucesso
 
-        try{
             System.out.println("Iniciando a inserção de um novo ator agora!");
             System.out.println("Iniciando a testagem das regras:");
             checaCamposObrigatorios(atorRequest);
@@ -47,9 +47,9 @@ public class AtorService{
             FakeDatabase.persisteAtor(atorRequest);
             System.out.println("-------------Em teoria o ator foi inserido com sucesso-------------");
             System.out.println("-------------FINALIZANDO INSERÇÃO DE ATOR------------- \n");
-        } catch (CampoObrigatorioException | NomeSobrenomeException | DataNascimentoInvalidaException | AnoInicioAtividadeInvalidoException | NomeDuplicadoException e){
-            System.out.println(e.getMessage());
-        }
+//        } catch (CampoObrigatorioException | NomeSobrenomeException | DataNascimentoInvalidaException | AnoInicioAtividadeInvalidoException | NomeDuplicadoException e){
+//            System.out.println(e.getMessage());
+//        }
     }
 
     public void checaCamposObrigatorios(AtorRequest atorRequest) throws CampoObrigatorioException {
@@ -59,7 +59,7 @@ public class AtorService{
 
         String nome = atorRequest.getNome();
         LocalDate dataNascimento = atorRequest.getDataNascimento();
-        String statusCarreira = atorRequest.getStatusCarreira();
+        StatusCarreira statusCarreira = atorRequest.getStatusCarreira();
         Integer anoInicioAtividade = atorRequest.getAnoInicioAtividade();
 
         List<String> camposFaltantes = new ArrayList<>();
@@ -138,7 +138,7 @@ public class AtorService{
         int nomesCounter = 0;
 
         for (int i = 0; i < atoresCadastrados.size(); i++){
-            if (nomeSendoInserido.equals(atoresCadastrados.get(i).getNome())){
+            if (nomeSendoInserido.equalsIgnoreCase(atoresCadastrados.get(i).getNome())){
                 nomesCounter++;
             }
         }
@@ -148,7 +148,7 @@ public class AtorService{
         }
     }
 
-    public static List<Ator> listarAtoresEmAtividade(String filtroNome) throws ListaAtoresEmAtividadeVaziaException, ListaAtoresEmAtividadeSemCorrespondenciaException{
+    public static List<Ator> listarAtoresEmAtividade(String filtroNome) throws ListaAtoresEmAtividadeVaziaException, ListaAtoresEmAtividadeSemCorrespondenciaException {
 //      Esse método insere os atores da FakeDatabase.recuperaAtores em uma lista usável dentro dessa classe e trabalha um stream em cima dela
 //      A stream roda duas filtragens para separar pelo filtro usado e por EM_ATIVIDADE (fiz um getter para pegar o
 //      própri enum e não a descrição) e depois imprimi os valores encontrados
@@ -168,17 +168,18 @@ public class AtorService{
 
         Stream<Ator> atoresFiltradosPorNome = Stream.of();
         atoresFiltradosPorNome = atoresCadastrados.stream()
-                .filter(x -> x.getNome().contains(filtroNome));
+                .filter(x -> x.getNome().contains(filtroNome))
+                .filter(x -> x.getStatusCarreiraCrude().equals(StatusCarreira.EM_ATIVIDADE));
+//
+//        if(atoresFiltradosPorNome.toList().isEmpty()){*
+//            throw new ListaAtoresEmAtividadeSemCorrespondenciaException(filtroNome);
+//        }
 
-        if(atoresFiltradosPorNome.toList().isEmpty()){
-            throw new ListaAtoresEmAtividadeSemCorrespondenciaException(filtroNome);
-        }
 
-
-        return atoresCadastrados;
+        return atoresFiltradosPorNome.toList();
     }
 
-    public List<Ator> consultarAtor(Integer id) throws ConsultaAtorException{
+    public List<Ator> consultarAtor(Integer id) throws ConsultaAtorException {
 //      Esse método ficou um pouco bagunçado, acredito que há mil formas de otimizar ele, mas como preferi usar stream, ficou funcional dessa forma
 //      Pra começar o retorno solicitado foi Ator, porém como trabalhei com Stream retornei uma lista com o ator encontrado ou a exceção que foi lançada
 //      Instanciei a lista da FakeDatabase.recuperaAtores() em atoresCadastrados e criei um Stream<Ator> Stream.of para conseguir checar diretamente
@@ -198,11 +199,11 @@ public class AtorService{
             throw new ConsultaAtorException(id);
         }
 
-        atoresCadastrados.stream()
-                .filter(x -> x.getAtorId().equals(id))
-                .forEach(x -> System.out.println("ID: "+x.getAtorId()+" | Nome: "+x.getNome()+" | Data Nasc: "+x.getDataNascimento()+" | Status Carreira: "+x.getStatusCarreira()));
+        Stream<Ator> atorConsultadoFinal = Stream.of();
+        atorConsultadoFinal = atoresCadastrados.stream()
+                .filter(x -> x.getAtorId().equals(id));
 
-        return atoresCadastrados;
+        return atorConsultadoFinal.toList();
     }
 
     public List<Ator> consultarAtores() throws ListaAtoresEmAtividadeVaziaException{

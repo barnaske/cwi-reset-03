@@ -1,10 +1,13 @@
 package br.com.cwi.reset.augustobarnaske.exceptions;
 
 import br.com.cwi.reset.augustobarnaske.classes.AtorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.text.MessageFormat;
 import java.util.List;
 
+@ResponseStatus(HttpStatus.BAD_REQUEST)
 public class CampoObrigatorioException extends Exception {
 
     public CampoObrigatorioException(List<String> camposFaltantes) {

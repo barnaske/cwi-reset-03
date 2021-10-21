@@ -3,10 +3,22 @@ package br.com.cwi.reset.augustobarnaske.classes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FakeDatabase{
+public class FakeDatabase {
+
+    private static FakeDatabase fakeDatabase = new FakeDatabase();
+
+    public static FakeDatabase getInstance() {
+        return fakeDatabase;
+    }
+
+    private FakeDatabase() {
+    }
 
     private static List<Ator> atores = new ArrayList<>();
     private static List<Diretor> diretores = new ArrayList<>();
+    private static List<Estudio> estudios = new ArrayList<>();
+    private static List<Filme> filmes = new ArrayList<>();
+    private static List<PersonagemAtor> personagens = new ArrayList<>();
 
     public static void persisteAtor(Ator ator) {
         atores.add(ator);
@@ -22,5 +34,29 @@ public class FakeDatabase{
 
     public static List<Diretor> recuperaDiretores() {
         return diretores;
+    }
+
+    public void persisteEstudio(Estudio estudio) {
+        estudios.add(estudio);
+    }
+
+    public List<Estudio> recuperaEstudios() {
+        return estudios;
+    }
+
+    public void persisteFilme(Filme filme) {
+        filmes.add(filme);
+    }
+
+    public List<Filme> recuperaFilmes() {
+        return filmes;
+    }
+
+    public void persistePersonagem(PersonagemAtor personagemAtor) {
+        personagens.add(personagemAtor);
+    }
+
+    public List<PersonagemAtor> recuperaPersonagens() {
+        return personagens;
     }
 }

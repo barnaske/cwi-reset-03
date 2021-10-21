@@ -1,4 +1,4 @@
-package br.com.cwi.reset.augustobarnaske.exceptions;
+package br.com.cwi.reset.augustobarnaske.exceptions.diretores;
 
 public class ConsultaDiretorException extends Exception {
 
